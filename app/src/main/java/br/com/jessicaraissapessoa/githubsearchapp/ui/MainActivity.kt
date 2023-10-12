@@ -1,5 +1,6 @@
 package br.com.jessicaraissapessoa.githubsearchapp.ui
 
+import android.content.Context
 import android.content.Intent
 import android.net.Uri
 import android.os.Bundle
@@ -35,7 +36,8 @@ class MainActivity : AppCompatActivity() {
         setupView()
         showUserName()
         setupRetrofit()
-        getAllReposByUserName()
+        setupListeners()
+        //getAllReposByUserName()
     }
 
     fun setupView() { // Metodo responsavel por realizar o setup da view e recuperar os Ids do layout
@@ -46,15 +48,19 @@ class MainActivity : AppCompatActivity() {
 
     private fun setupListeners() { //metodo responsavel por configurar os listeners click da tela
         btnConfirmar.setOnClickListener {
-            // TODO: implementar 
+            val nomeUsuarioInformado = nomeUsuario.text.toString()
+            getAllReposByUserName(nomeUsuarioInformado)
+            saveUserLocal(nomeUsuarioInformado)
         }
-        // TODO: implementar
     }
 
+    private fun saveUserLocal(nomeInformado : String) { // salvar o usuario preenchido no EditText utilizando uma SharedPreferences
 
-    // salvar o usuario preenchido no EditText utilizando uma SharedPreferences
-    private fun saveUserLocal() {
-        //@TODO 3 - Persistir o usuario preenchido na editText com a SharedPref no listener do botao salvar
+        val sharedPreference = getSharedPreferences(nomeInformado,Context.MODE_PRIVATE)
+        with(sharedPreference.edit()) {
+            putString("saved_username", nomeInformado)
+            apply()
+        }
     }
 
     private fun showUserName() {
@@ -72,9 +78,9 @@ class MainActivity : AppCompatActivity() {
 
     }
 
-    fun getAllReposByUserName() { //Metodo responsável por buscar todos os repositórios do usuário fornecido
+    fun getAllReposByUserName(nome: String) { //Metodo responsável por buscar todos os repositórios do usuário fornecido
 
-        githubApi.getAllRepositoriesByUser("Jéssica Raissa Pessoa").enqueue(object : Callback<List<Repository>> {
+        githubApi.getAllRepositoriesByUser(nome).enqueue(object : Callback<List<Repository>> {
             override fun onResponse(
                 call: Call<List<Repository>>,
                 response: Response<List<Repository>>
