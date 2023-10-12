@@ -2,4 +2,5 @@
     <string name="app_name">GitHubSearchApp</string>
     <string name="nome_do_usuario">Nome do usuário</string>
     <string name="pesquisar_usuario">Pesquisar usuário</string>
+    <string name="descricao_ic_share">Ícone de compartilhamento</string>
 </resources>
