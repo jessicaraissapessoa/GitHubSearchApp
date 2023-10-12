@@ -1,8 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <color name="githubTheme">#080A0D</color>
-    <color name="cardTheme">#1B212B</color>
-    <color name="appTheme">#6408E0</color>
+    <color name="background">#010409</color>
+    <color name="actionBar">#0E132C</color>
+    <color name="clickables">#0BBF38</color>
+    <color name="card">#272B33</color>
+    <color name="share">#0A12A6</color>
     <color name="black">#FF000000</color>
     <color name="white">#FFFFFFFF</color>
 </resources>
