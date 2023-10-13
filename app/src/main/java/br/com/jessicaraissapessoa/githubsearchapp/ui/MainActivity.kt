@@ -9,7 +9,6 @@ import android.widget.Button
 import android.widget.EditText
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
-import androidx.core.view.isVisible
 import androidx.recyclerview.widget.RecyclerView
 import br.com.jessicaraissapessoa.githubsearchapp.R
 import br.com.jessicaraissapessoa.githubsearchapp.data.GitHubService
@@ -69,17 +68,22 @@ class MainActivity : AppCompatActivity() {
         val nomeUsuarioInformado = nomeUsuario.text.toString()
 
         if (nomeUsuarioInformado.isNotEmpty()) {
+
             githubApi.getAllRepositoriesByUser(nomeUsuarioInformado)
                 .enqueue(object : Callback<List<Repository>> {
+
                     override fun onResponse(
                         call: Call<List<Repository>>,
                         response: Response<List<Repository>>
                     ) {
                         if (response.isSuccessful) {
-                            response.body()?.let {
-                                setupAdapter(it)
-                                saveUserLocal(nomeUsuarioInformado)
+
+                            val repositories = response.body()
+
+                            repositories?.let {
+                                setupAdapter(repositories)
                             }
+
                         } else {
                             val context = applicationContext
                             Toast.makeText(context, R.string.response_error, Toast.LENGTH_LONG)
@@ -97,6 +101,13 @@ class MainActivity : AppCompatActivity() {
             saveUserLocal(nomeUsuarioInformado)
             Log.d("chegou aqui", "chegou")
         }
+    }
+
+    fun setupAdapter(list: List<Repository>) { // Método responsável por realizar a configuração do adapter
+
+        val adapter = RepositoryAdapter(this, list)
+
+        listaRepositories.adapter = adapter
     }
 
     private fun saveUserLocal(nomeInformado : String) { // Método responsável por salvar o usuário preenchido no EditText utilizando uma SharedPreferences
@@ -124,19 +135,6 @@ class MainActivity : AppCompatActivity() {
             Log.d("exibindo nome salvo:", nomeUsuarioPesquisado)
         } else Log.d("sem nome salvo", "")
     }
-
-    fun setupAdapter(list: List<Repository>) { // Método responsável por realizar a configuração do adapter
-
-        val repositoryAdapter = RepositoryAdapter(list)
-
-        listaRepositories.apply {
-            isVisible = true
-            adapter = repositoryAdapter
-        }
-
-        // TODO: terminar implementação
-    }
-
 
     // Método responsável por compartilhar o link do repositório selecionado
     // @Todo 11 - Colocar esse metodo no click do share item do adapter
