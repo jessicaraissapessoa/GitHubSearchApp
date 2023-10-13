@@ -7,22 +7,24 @@ import androidx.recyclerview.widget.RecyclerView
 import br.com.jessicaraissapessoa.githubsearchapp.R
 import br.com.jessicaraissapessoa.githubsearchapp.domain.Repository
 
-class RepositoryAdapter(private val repositories: List<Repository>) :
-    RecyclerView.Adapter<RepositoryAdapter.ViewHolder>() {
+class RepositoryAdapter(private val repositories: List<Repository>) : RecyclerView.Adapter<RepositoryAdapter.ViewHolder>() {
 
     var carItemLister: (Repository) -> Unit = {}
     var btnShareLister: (Repository) -> Unit = {}
 
-    // Cria uma nova view
-    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
+    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder { // Cria uma nova view
         val view =
             LayoutInflater.from(parent.context).inflate(R.layout.repository_item, parent, false)
         return ViewHolder(view)
     }
 
-    // Pega o conteudo da view e troca pela informacao de item de uma lista
+    override fun getItemCount(): Int = repositories.size // Pega a quantidade de repositórios da lista
+
+    // Pega o conteúdo da view e troca pela informação de item de uma lista
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
-        //@TODO 8 -  Realizar o bind do viewHolder
+
+
+    //@TODO 8 -  Realizar o bind do viewHolder
         //Exemplo de Bind
         //  holder.preco.text = repositories[position].atributo
 
@@ -36,10 +38,6 @@ class RepositoryAdapter(private val repositories: List<Repository>) :
         //    btnShareLister(repositores[position])
         //}
     }
-
-    // Pega a quantidade de repositorios da lista
-    //@TODO 9 - realizar a contagem da lista
-    override fun getItemCount(): Int = 0
 
     class ViewHolder(view: View) : RecyclerView.ViewHolder(view) {
         //@TODO 10 - Implementar o ViewHolder para os repositorios
