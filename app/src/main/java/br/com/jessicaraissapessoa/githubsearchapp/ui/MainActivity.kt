@@ -75,7 +75,6 @@ class MainActivity : AppCompatActivity() {
 
                             val repositories = response.body()
 
-
                             repositories?.let {
                                 setupAdapter(repositories)
                             }
