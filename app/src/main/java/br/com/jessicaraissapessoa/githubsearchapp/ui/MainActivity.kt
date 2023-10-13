@@ -1,8 +1,6 @@
 package br.com.jessicaraissapessoa.githubsearchapp.ui
 
 import android.content.Context
-import android.content.Intent
-import android.net.Uri
 import android.os.Bundle
 import android.util.Log
 import android.widget.Button
@@ -34,10 +32,9 @@ class MainActivity : AppCompatActivity() {
 
         setContentView(R.layout.activity_main)
         setupView()
+        showUserName()
         setupRetrofit()
         setupListeners()
-        showUserName()
-        getAllReposByUserName()
     }
 
     fun setupView() { // Método responsável por realizar o setup da view e recuperar os Ids do layout
@@ -54,22 +51,21 @@ class MainActivity : AppCompatActivity() {
             .build()
 
         githubApi = retrofit.create(GitHubService::class.java)
-
     }
 
     private fun setupListeners() { // Método responsável por configurar os listeners click da tela
         btnConfirmar.setOnClickListener {
-            getAllReposByUserName()
+            val nomePesquisar = nomeUsuario.text.toString()
+            getAllReposByUserName(nomePesquisar)
+            saveUserLocal()
         }
     }
 
-    fun getAllReposByUserName() { //Método responsável por buscar todos os repositórios do usuário fornecido
+    fun getAllReposByUserName(userName: String) { //Método responsável por buscar todos os repositórios do usuário fornecido
 
-        val nomeUsuarioInformado = nomeUsuario.text.toString()
+        if (userName.isNotEmpty()) {
 
-        if (nomeUsuarioInformado.isNotEmpty()) {
-
-            githubApi.getAllRepositoriesByUser(nomeUsuarioInformado)
+            githubApi.getAllRepositoriesByUser(userName)
                 .enqueue(object : Callback<List<Repository>> {
 
                     override fun onResponse(
@@ -79,6 +75,8 @@ class MainActivity : AppCompatActivity() {
                         if (response.isSuccessful) {
 
                             val repositories = response.body()
+                            Log.d("MainActivity", "Resposta da API: ${repositories.toString()}")
+
 
                             repositories?.let {
                                 setupAdapter(repositories)
@@ -98,68 +96,39 @@ class MainActivity : AppCompatActivity() {
 
                 })
 
-            saveUserLocal(nomeUsuarioInformado)
             Log.d("chegou aqui", "chegou")
         }
     }
 
     fun setupAdapter(list: List<Repository>) { // Método responsável por realizar a configuração do adapter
 
-        val adapter = RepositoryAdapter(this, list)
+        val adapter = RepositoryAdapter(
+            this, list)
 
         listaRepositories.adapter = adapter
+
+        Log.d("adapter", adapter.toString())
     }
 
-    private fun saveUserLocal(nomeInformado : String) { // Método responsável por salvar o usuário preenchido no EditText utilizando uma SharedPreferences
+    private fun saveUserLocal() { // Método responsável por salvar o usuário preenchido no EditText utilizando uma SharedPreferences
 
-        val sharedPreference = getSharedPreferences(nomeInformado,Context.MODE_PRIVATE) ?: return
+        val usuarioInformado = nomeUsuario.text.toString()
+
+        val sharedPreference = getPreferences(Context.MODE_PRIVATE) ?: return
         with(sharedPreference.edit()) {
-            putString("saved_username", nomeInformado)
+            putString("saved_username", usuarioInformado)
             apply()
-            Log.d("nome salvo", nomeInformado)
         }
-    }
-
-    private fun getSharedPref(nome: String) : String? { //Método que pega preferência salva em SharedPreference
-
-        val sharedPreference = getSharedPreferences(nome, Context.MODE_PRIVATE)
-        Log.d("pegou salvo", sharedPreference.toString())
-
-        return sharedPreference.getString("saved_username", "")
     }
 
     private fun showUserName() { //Método que exibe o que foi salvo na SharedPreference
-        val nomeUsuarioPesquisado = getSharedPref("saved_username")
-        nomeUsuario.setText(nomeUsuarioPesquisado)
-        if (nomeUsuarioPesquisado != null) {
-            Log.d("exibindo nome salvo:", nomeUsuarioPesquisado)
-        } else Log.d("sem nome salvo", "")
-    }
 
-    // Método responsável por compartilhar o link do repositório selecionado
-    // @Todo 11 - Colocar esse metodo no click do share item do adapter
-    fun shareRepositoryLink(urlRepository: String) {
-        val sendIntent: Intent = Intent().apply {
-            action = Intent.ACTION_SEND
-            putExtra(Intent.EXTRA_TEXT, urlRepository)
-            type = "text/plain"
+        val sharedPreference = getPreferences(MODE_PRIVATE) ?: return
+        val ultimoPesquisado = sharedPreference.getString("saved_username", null)
+
+        if (!ultimoPesquisado.isNullOrEmpty()) {
+            nomeUsuario.setText(ultimoPesquisado)
         }
-
-        val shareIntent = Intent.createChooser(sendIntent, null)
-        startActivity(shareIntent)
-    }
-
-    // Método responsável por abrir o browser com o link informado do repositório
-
-    // @Todo 12 - Colocar esse metodo no click item do adapter
-    fun openBrowser(urlRepository: String) {
-        startActivity(
-            Intent(
-                Intent.ACTION_VIEW,
-                Uri.parse(urlRepository)
-            )
-        )
-
     }
 
 }
