@@ -1,6 +1,8 @@
 package br.com.jessicaraissapessoa.githubsearchapp.ui
 
 import android.content.Context
+import android.net.ConnectivityManager
+import android.net.NetworkCapabilities
 import android.os.Bundle
 import android.widget.Button
 import android.widget.EditText
@@ -63,6 +65,18 @@ class MainActivity : AppCompatActivity() {
             saveUserLocal()
             listaRepositories.isVisible = false //Para que desapareça quando for fazer nossas pesquisas
         }
+    }
+
+    fun isInternetAvailable(context: Context): Boolean {
+        val connectivityManager =
+            context.getSystemService(Context.CONNECTIVITY_SERVICE) as ConnectivityManager
+
+        val networkCapabilities = connectivityManager.activeNetwork ?: return false
+        val actNw = connectivityManager.getNetworkCapabilities(networkCapabilities) ?: return false
+
+        return actNw.hasTransport(NetworkCapabilities.TRANSPORT_WIFI) ||
+                actNw.hasTransport(NetworkCapabilities.TRANSPORT_CELLULAR) ||
+                actNw.hasTransport(NetworkCapabilities.TRANSPORT_ETHERNET)
     }
 
     fun getAllReposByUserName(userName: String) { //Método responsável por buscar todos os repositórios do usuário fornecido
