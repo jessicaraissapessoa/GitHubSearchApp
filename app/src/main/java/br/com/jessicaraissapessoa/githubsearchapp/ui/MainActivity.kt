@@ -2,7 +2,6 @@ package br.com.jessicaraissapessoa.githubsearchapp.ui
 
 import android.content.Context
 import android.os.Bundle
-import android.util.Log
 import android.widget.Button
 import android.widget.EditText
 import android.widget.Toast
@@ -75,7 +74,6 @@ class MainActivity : AppCompatActivity() {
                         if (response.isSuccessful) {
 
                             val repositories = response.body()
-                            Log.d("MainActivity", "Resposta da API: ${repositories.toString()}")
 
 
                             repositories?.let {
@@ -95,8 +93,6 @@ class MainActivity : AppCompatActivity() {
                     }
 
                 })
-
-            Log.d("chegou aqui", "chegou")
         }
     }
 
@@ -106,8 +102,6 @@ class MainActivity : AppCompatActivity() {
             this, list)
 
         listaRepositories.adapter = adapter
-
-        Log.d("adapter", adapter.toString())
     }
 
     private fun saveUserLocal() { // Método responsável por salvar o usuário preenchido no EditText utilizando uma SharedPreferences

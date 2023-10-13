@@ -3,7 +3,6 @@ package br.com.jessicaraissapessoa.githubsearchapp.ui.adapter
 import android.content.Context
 import android.content.Intent
 import android.net.Uri
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -25,8 +24,6 @@ class RepositoryAdapter(private val context: Context, private val repositories: 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) { // Pega o conteúdo da view e troca pela informação de item de uma lista
 
         val repository = repositories[position]
-
-        Log.d("RepositoryAdapter", "Nome do repositório: ${repository.name}")
 
         holder.cardRepositorio.setOnClickListener {
             openBrowser(context, repository.htmlUrl)
