@@ -55,7 +55,31 @@
         app:layout_constraintBottom_toBottomOf="@+id/rv_lista_repositories"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/btn_pesquisar" />
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <ImageView
+        android:visibility="gone"
+        android:id="@+id/iv_wifi_off"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:src="@drawable/ic_wifi_off"
+        app:layout_constraintBottom_toBottomOf="@+id/rv_lista_repositories"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        android:contentDescription="@string/descricao_ic_wifi_off" />
+
+    <TextView
+        android:visibility="gone"
+        android:id="@+id/tv_wifi_off"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="16dp"
+        style="@style/TextAppearance.AppCompat.Body2"
+        android:text="@string/text_wifi_off"
+        app:layout_constraintStart_toStartOf="@id/btn_pesquisar"
+        app:layout_constraintEnd_toEndOf="@id/btn_pesquisar"
+        app:layout_constraintTop_toBottomOf="@id/iv_wifi_off"/>
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>
