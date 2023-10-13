@@ -6,7 +6,9 @@ import android.net.NetworkCapabilities
 import android.os.Bundle
 import android.widget.Button
 import android.widget.EditText
+import android.widget.ImageView
 import android.widget.ProgressBar
+import android.widget.TextView
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.isVisible
@@ -28,6 +30,8 @@ class MainActivity : AppCompatActivity() {
     lateinit var listaRepositories: RecyclerView
     lateinit var githubApi: GitHubService
     lateinit var carregamento : ProgressBar
+    lateinit var icWifiOff : ImageView
+    lateinit var txtWifiOff : TextView
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -46,6 +50,8 @@ class MainActivity : AppCompatActivity() {
         btnConfirmar = findViewById(R.id.btn_pesquisar)
         listaRepositories = findViewById(R.id.rv_lista_repositories)
         carregamento = findViewById(R.id.pb_carregamento)
+        icWifiOff = findViewById(R.id.iv_wifi_off)
+        txtWifiOff = findViewById(R.id.tv_wifi_off)
     }
 
     fun setupRetrofit() { //Método responsável por fazer a configuração base do Retrofit
@@ -60,16 +66,28 @@ class MainActivity : AppCompatActivity() {
 
     private fun setupListeners() { // Método responsável por configurar os listeners click da tela
         btnConfirmar.setOnClickListener {
-            val nomePesquisar = nomeUsuario.text.toString()
-            getAllReposByUserName(nomePesquisar)
-            saveUserLocal()
-            listaRepositories.isVisible = false //Para que desapareça quando for fazer nossas pesquisas
+
+            val conexao = isInternetAvailable()
+
+            if (!conexao) {
+                icWifiOff.isVisible = true
+                txtWifiOff.isVisible = true
+            } else {
+
+                icWifiOff.isVisible = false
+                txtWifiOff.isVisible = false
+
+                val nomePesquisar = nomeUsuario.text.toString()
+                getAllReposByUserName(nomePesquisar)
+                saveUserLocal()
+                listaRepositories.isVisible = false //Para que desapareça quando for fazer nossas pesquisas
+            }
         }
     }
 
-    fun isInternetAvailable(context: Context): Boolean {
+    fun isInternetAvailable(): Boolean {
         val connectivityManager =
-            context.getSystemService(Context.CONNECTIVITY_SERVICE) as ConnectivityManager
+            getSystemService(CONNECTIVITY_SERVICE) as ConnectivityManager
 
         val networkCapabilities = connectivityManager.activeNetwork ?: return false
         val actNw = connectivityManager.getNetworkCapabilities(networkCapabilities) ?: return false
