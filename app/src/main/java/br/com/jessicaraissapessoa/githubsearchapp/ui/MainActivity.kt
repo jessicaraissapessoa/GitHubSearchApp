@@ -4,8 +4,10 @@ import android.content.Context
 import android.os.Bundle
 import android.widget.Button
 import android.widget.EditText
+import android.widget.ProgressBar
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
+import androidx.core.view.isVisible
 import androidx.recyclerview.widget.RecyclerView
 import br.com.jessicaraissapessoa.githubsearchapp.R
 import br.com.jessicaraissapessoa.githubsearchapp.data.GitHubService
@@ -23,6 +25,7 @@ class MainActivity : AppCompatActivity() {
     lateinit var btnConfirmar: Button
     lateinit var listaRepositories: RecyclerView
     lateinit var githubApi: GitHubService
+    lateinit var carregamento : ProgressBar
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -40,6 +43,7 @@ class MainActivity : AppCompatActivity() {
         nomeUsuario = findViewById(R.id.et_nome_usuario)
         btnConfirmar = findViewById(R.id.btn_pesquisar)
         listaRepositories = findViewById(R.id.rv_lista_repositories)
+        carregamento = findViewById(R.id.pb_carregamento)
     }
 
     fun setupRetrofit() { //Método responsável por fazer a configuração base do Retrofit
@@ -57,12 +61,15 @@ class MainActivity : AppCompatActivity() {
             val nomePesquisar = nomeUsuario.text.toString()
             getAllReposByUserName(nomePesquisar)
             saveUserLocal()
+            listaRepositories.isVisible = false //Para que desapareça quando for fazer nossas pesquisas
         }
     }
 
     fun getAllReposByUserName(userName: String) { //Método responsável por buscar todos os repositórios do usuário fornecido
 
         if (userName.isNotEmpty()) {
+
+            carregamento.isVisible = true
 
             githubApi.getAllRepositoriesByUser(userName)
                 .enqueue(object : Callback<List<Repository>> {
@@ -73,6 +80,9 @@ class MainActivity : AppCompatActivity() {
                     ) {
                         if (response.isSuccessful) {
 
+                            carregamento.isVisible = false
+                            listaRepositories.isVisible = true
+
                             val repositories = response.body()
 
                             repositories?.let {
@@ -80,6 +90,9 @@ class MainActivity : AppCompatActivity() {
                             }
 
                         } else {
+
+                            carregamento.isVisible = false
+
                             val context = applicationContext
                             Toast.makeText(context, R.string.response_error, Toast.LENGTH_LONG)
                                 .show()
@@ -87,6 +100,9 @@ class MainActivity : AppCompatActivity() {
                     }
 
                     override fun onFailure(call: Call<List<Repository>>, t: Throwable) {
+
+                        carregamento.isVisible = false
+
                         val context = applicationContext
                         Toast.makeText(context, R.string.response_error, Toast.LENGTH_LONG).show()
                     }
