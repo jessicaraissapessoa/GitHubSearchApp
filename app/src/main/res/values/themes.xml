@@ -3,6 +3,6 @@
     <style name="Theme.GitHubSearchApp" parent="@style/Theme.Design">
         <item name="icon">@mipmap/ic_launcher</item>
         <item name="colorPrimary">@color/actionBar</item>
-        <item name="colorPrimaryDark">@color/actionBar</item>
+        <item name="colorPrimaryDark">@color/background</item>
     </style>
 </resources>
