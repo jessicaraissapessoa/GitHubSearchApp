@@ -49,28 +49,28 @@ Principais personalizações que fiz além do que foi proposto do desafio:
 
 ### Ícone personalizado do aplicativo
 
-<img src="https://github.com/jessicaraissapessoa/GitHubSearchApp/assets/103599234/c65746ef-15a5-4e9f-81a1-85b83c522d71" width="300">
+<img src="https://github.com/jessicaraissapessoa/GitHubSearchApp/assets/103599234/6e2519b9-5422-44a3-bc34-3568cc89f4d9" width="300">
 
 <br>
 <br>
 
 ### Tela do aplicativo em primeiro acesso
 
-<img src="https://github.com/jessicaraissapessoa/GitHubSearchApp/assets/103599234/d860ee7d-6709-4a26-8500-8ee2b1f8baf1" width="300">
+<img src="https://github.com/jessicaraissapessoa/GitHubSearchApp/assets/103599234/d0c2b90c-47f4-4937-b964-87a8ec0693a3" width="300">
 
 <br>
 <br>
 
 ### Tela do aplicativo ao pesquisar um usuário
 
-<img src="https://github.com/jessicaraissapessoa/GitHubSearchApp/assets/103599234/953553d8-6e0e-4668-8646-b60f99a19c32" width="300">
+<img src="https://github.com/jessicaraissapessoa/GitHubSearchApp/assets/103599234/8e087faa-2ef2-4391-b50d-8921e32e8ce2" width="300">
 
 <br>
 <br>
 
 ### Demonstração de parte do método para compartilhar link de um repositório
 
-<img src="https://github.com/jessicaraissapessoa/GitHubSearchApp/assets/103599234/b052246b-4fa1-4970-b333-08f7214aa42f" width="300">
+<img src="https://github.com/jessicaraissapessoa/GitHubSearchApp/assets/103599234/5e764f49-80a4-43fb-9b5c-fb53005e85d2" width="300">
 
 <br>
 <br>
@@ -79,11 +79,11 @@ Principais personalizações que fiz além do que foi proposto do desafio:
 
 <br>
 
-https://github.com/jessicaraissapessoa/GitHubSearchApp/assets/103599234/3ebefdd9-1193-46f9-ac1b-6fb2cb8a0afc
+https://github.com/jessicaraissapessoa/GitHubSearchApp/assets/103599234/70b47d36-af1a-4fd9-9b85-846a92a2665c
 
 <br>
 
-https://github.com/jessicaraissapessoa/GitHubSearchApp/assets/103599234/6b6c3619-76a7-4c5a-bd2b-bf3ec660b6e6
+https://github.com/jessicaraissapessoa/GitHubSearchApp/assets/103599234/df80a2bf-5812-4a73-b406-de644905de81
 
 <br>
 
